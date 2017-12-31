@@ -47,6 +47,13 @@ func calcOffset(pos position) int64 {
 	return abs(pos.x) + abs(pos.y)
 }
 
+func abs(x int64) int64 {
+	if x < 0 {
+		return -x
+	}
+	return x
+}
+
 func findPosition(num int64) position {
 	pos := position{0, 0}
 	if num == 1 {
@@ -92,12 +99,4 @@ func findPosition(num int64) position {
 	os.Stderr.WriteString(fmt.Sprintf("------------ %v\n", pos))
 
 	return pos
-}
-
-// Abs returns the absolute value of x.
-func abs(x int64) int64 {
-	if x < 0 {
-		return -x
-	}
-	return x
 }

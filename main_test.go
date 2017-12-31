@@ -9,17 +9,22 @@ import (
 
 func TestPositions(t *testing.T) {
 	Convey("Given a known-position number", t, func() {
-		expected := []position{position{0, 0}, position{1, 0}, position{1, -1}}
+		expected := []position{
+			position{0, 0},
+			position{1, 0},
+			position{1, -1},
+			position{0, -1},
+			position{-1, -1},
+			position{-1, 0},
+			position{-1, 1},
+			position{0, 1},
+			position{1, 1},
+			position{2, 1},
+		}
 		for i, position := range expected {
 			checkPosition(t, int64(i+1), position)
 		}
 
-		checkPosition(t, 5, position{-1, -1})
-		checkPosition(t, 6, position{-1, 0})
-		checkPosition(t, 7, position{-1, 1})
-		checkPosition(t, 8, position{0, 1})
-		checkPosition(t, 9, position{1, 1})
-		checkPosition(t, 10, position{2, 1})
 	})
 }
 

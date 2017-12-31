@@ -75,7 +75,8 @@ func findPosition(num int64) position {
 	}
 	i := int64(1)
 	currentDirection := "R"
-	for true {
+findPos:
+	for i <= num {
 		for moveStep := 1; moveStep <= edgeLen; moveStep++ {
 			i++
 			vector := directions[currentDirection]
@@ -83,8 +84,8 @@ func findPosition(num int64) position {
 			pos.y += vector.y
 			//os.Stderr.WriteString(fmt.Sprintf("%d: step %d/%d %s (%v)\n", i, moveStep, edgeLen, currentDirection, pos))
 			if i == num {
-				os.Stderr.WriteString(fmt.Sprintf("%d: %v\n", num, pos))
-				return pos
+				//os.Stderr.WriteString(fmt.Sprintf("%d: %v\n", num, pos))
+				break findPos
 			}
 		}
 		currentDirection = nextDirection[currentDirection]
@@ -96,7 +97,7 @@ func findPosition(num int64) position {
 		}
 		//os.Stderr.WriteString(fmt.Sprintf("%d: end of side, will move %s next\n", i, currentDirection))
 	}
-	os.Stderr.WriteString(fmt.Sprintf("------------ %v\n", pos))
+	//os.Stderr.WriteString(fmt.Sprintf("------------ %v\n", pos))
 
 	return pos
 }

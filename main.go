@@ -10,13 +10,13 @@ import (
 )
 
 type position struct {
-	x int64
-	y int64
+	x int
+	y int
 }
 
 type vector struct {
-	x int64
-	y int64
+	x int
+	y int
 }
 
 func main() {
@@ -32,7 +32,7 @@ func main() {
 			continue
 		}
 
-		pos := findPosition(num)
+		pos := findPosition(int(num))
 		offset := calcOffset(pos)
 		fmt.Printf("offset for %s is %d\n", line, offset)
 		fmt.Print("enter a number: ")
@@ -43,18 +43,18 @@ func main() {
 	}
 }
 
-func calcOffset(pos position) int64 {
+func calcOffset(pos position) int {
 	return abs(pos.x) + abs(pos.y)
 }
 
-func abs(x int64) int64 {
+func abs(x int) int {
 	if x < 0 {
 		return -x
 	}
 	return x
 }
 
-func findPosition(num int64) position {
+func findPosition(num int) position {
 	pos := position{0, 0}
 	if num == 1 {
 		return pos
@@ -73,7 +73,7 @@ func findPosition(num int64) position {
 		"L": "D",
 		"D": "R",
 	}
-	i := int64(1)
+	i := int(1)
 	currentDirection := "R"
 findPos:
 	for i <= num {

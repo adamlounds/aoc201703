@@ -53,7 +53,7 @@ func TestOffsets(t *testing.T) {
 }
 
 func checkPosition(t *testing.T, num int64, expectedpos position) {
-	pos := findPosition(num)
+	pos := findPosition(int(num))
 	Convey(fmt.Sprintf("coordinates are correct for %d", num), func() {
 		So(pos, ShouldResemble, expectedpos)
 	})

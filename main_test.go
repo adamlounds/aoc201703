@@ -58,3 +58,54 @@ func checkPosition(t *testing.T, num int64, expectedpos position) {
 		So(pos, ShouldResemble, expectedpos)
 	})
 }
+
+func TestExceedingValues(t *testing.T) {
+	Convey("Given a number", t, func() {
+		nextValue := spiralEntryExceeding(5)
+		So(nextValue, ShouldEqual, 10)
+		expected := []int{2, 4, 4, 5, 10}
+		for i, nextExpected := range expected {
+			Convey(fmt.Sprintf("the next seen value in the spiral after %d is %d", i+1, nextExpected), func() {
+				nextValue := spiralEntryExceeding(i + 1)
+				So(nextValue, ShouldEqual, nextExpected)
+			})
+		}
+	})
+}
+
+func TestSumNeighbours(t *testing.T) {
+	Convey("third iteration of spiral", t, func() {
+		matrix := [][]int{
+			{0, 0, 0, 0},
+			{0, 0, 0, 0},
+			{0, 1, 1, 0},
+			{0, 0, 0, 0},
+		}
+		pos := position{2, 1}
+		cellValue := sumNeighbours(matrix, pos)
+		So(cellValue, ShouldEqual, 2)
+	})
+	Convey("fourth iteration", t, func() {
+		matrix := [][]int{
+			{0, 0, 0, 0},
+			{0, 0, 2, 0},
+			{0, 1, 1, 0},
+			{0, 0, 0, 0},
+		}
+		pos := position{1, 1}
+		cellValue := sumNeighbours(matrix, pos)
+		So(cellValue, ShouldEqual, 4)
+	})
+	Convey("fifth iteration", t, func() {
+		matrix := [][]int{
+			{0, 0, 0, 0, 0},
+			{0, 0, 4, 2, 0},
+			{0, 0, 1, 1, 0},
+			{0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0},
+		}
+		pos := position{1, 1}
+		cellValue := sumNeighbours(matrix, pos)
+		So(cellValue, ShouldEqual, 5)
+	})
+}

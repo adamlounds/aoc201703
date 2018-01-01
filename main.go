@@ -35,6 +35,9 @@ func main() {
 		pos := findPosition(int(num))
 		offset := calcOffset(pos)
 		fmt.Printf("offset for %s is %d\n", line, offset)
+
+		nextNum := spiralEntryExceeding(int(num))
+		fmt.Printf("exceeding number over %s is %d\n", line, nextNum)
 		fmt.Print("enter a number: ")
 	}
 
@@ -100,4 +103,67 @@ findPos:
 	//os.Stderr.WriteString(fmt.Sprintf("------------ %v\n", pos))
 
 	return pos
+}
+
+func spiralEntryExceeding(valueToExceed int) int {
+	size := 101
+	matrix := make([][]int, size)
+	for i := range matrix {
+		matrix[i] = make([]int, size)
+	}
+
+	edgeLen := 1
+	directions := map[string]vector{
+		"L": vector{-1, 0},
+		"R": vector{1, 0},
+		"U": vector{0, -1},
+		"D": vector{0, 1},
+	}
+	nextDirection := map[string]string{
+		"R": "U",
+		"U": "L",
+		"L": "D",
+		"D": "R",
+	}
+
+	// start in the middle. int + zero-indexes work together.
+	pos := position{int(size / 2), int(size / 2)}
+	matrix[pos.x][pos.y] = 1
+
+	currentDirection := "R"
+	valueOfThisCell := 1
+findValue:
+	for true {
+		for moveStep := 1; moveStep <= edgeLen; moveStep++ {
+			vector := directions[currentDirection]
+			pos.x += vector.x
+			pos.y += vector.y
+
+			valueOfThisCell = sumNeighbours(matrix, pos)
+			matrix[pos.y][pos.x] = valueOfThisCell
+
+			if valueOfThisCell > valueToExceed {
+				break findValue
+			}
+		}
+		currentDirection = nextDirection[currentDirection]
+		if currentDirection == "L" {
+			edgeLen++ // we go left one more step than we went up
+		}
+		if currentDirection == "R" {
+			edgeLen++ // we go right one more step than we went down
+		}
+		//os.Stderr.WriteString(fmt.Sprintf("%d: end of side, will move %s next\n", i, currentDirection))
+	}
+
+	return valueOfThisCell
+}
+
+func sumNeighbours(matrix [][]int, pos position) int {
+	x := pos.x
+	y := pos.y
+	above := matrix[y-1][x-1] + matrix[y-1][x] + matrix[y-1][x+1]
+	sides := matrix[y][x-1] + matrix[y][x+1]
+	below := matrix[y+1][x-1] + matrix[y+1][x] + matrix[y+1][x+1]
+	return above + sides + below
 }
